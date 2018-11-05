@@ -44,9 +44,12 @@ class PeriodicTable:
 				if str(compound[i+1]).isdigit() == False:
 					self.elements += [element]
 			i+=1
-		print(self.elements)
-		#add up values by taking value from csv. Then return val
-
+		# print(self.elements)
+		d = PeriodicTable()
+		mass = 0
+		for a in self.elements:
+			mass+=d.MolarMass(str(a))
+		return mass
 	def MolarMass(self, elsymb):
 		import os, csv
 		os.chdir(r'C:\Users\tilde\Desktop')
@@ -59,5 +62,6 @@ class PeriodicTable:
 
 
 d = PeriodicTable()
-d.Mass('H2O')
+print(d.Mass('H2O'))
+
 
