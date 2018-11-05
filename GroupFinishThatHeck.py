@@ -11,9 +11,9 @@ class PeriodicTable:
 		d = PeriodicTable()
 		print("Hello, I am Chem Bot. If you would like, you can either find the information for a single element or the mass of a compound")
 		command = str(input('To find the information for a single element, enter: I,"ElementName"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
-		if command[:1] == 'I':
+		if command[:1].upper() == 'I':
 			print(d.Info(str(command[2:])))
-		elif command[:1] == 'H':
+		elif command[:1].upper() == 'M':
 			print(d.Mass(str(command[2:])))
 		else:
 			print("You have entered your command incorrectly, please try again!")
@@ -66,7 +66,7 @@ class PeriodicTable:
 		mass = 0
 		for a in self.elements:
 			mass+=d.MolarMass(str(a))
-		return mass
+		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
 	def MolarMass(self, elsymb):
 		import os, csv
 		os.chdir(r'C:\Users\tilde\Desktop')
