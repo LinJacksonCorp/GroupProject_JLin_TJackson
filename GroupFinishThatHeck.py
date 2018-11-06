@@ -28,6 +28,21 @@ class PeriodicTable:
 				if str(Element) == str(line[2]):
 					return "\n\n"+str(line[0])+":\n"+"Atomic Number: "+str(line[1])+"\nSymbol: "+str(line[2])+"\nAtomic Mass: "+str(line[3])
 	def Mass(self, str_compound):
+		d = PeriodicTable()
+		mass = 0
+		for a in d.SeperateCompound(str_compound):
+			mass+=d.MolarMass(str(a))
+		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
+	def MolarMass(self, elsymb):
+		import os, csv
+		os.chdir(r'C:\Users\tilde\Desktop')
+		with open('elements.csv') as csv_file:
+			csv_read = csv.reader(csv_file, delimiter=',')
+			next(csv_read)
+			for line in csv_read:
+				if str(elsymb) == str(line[2]):
+					return float(line[3])
+	def SeperateCompound(self, str_compound):
 		compound = [] 
 		for a in str_compound:
 			compound += [a] # this will store all the characters & digits mentioned in the d.Mass(___) below
@@ -62,20 +77,11 @@ class PeriodicTable:
 				if str(compound[i+1]).isdigit() == False:
 					self.elements += [element]
 			i+=1
-		d = PeriodicTable()
-		mass = 0
-		for a in self.elements:
-			mass+=d.MolarMass(str(a))
-		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
-	def MolarMass(self, elsymb):
-		import os, csv
-		os.chdir(r'C:\Users\tilde\Desktop')
-		with open('elements.csv') as csv_file:
-			csv_read = csv.reader(csv_file, delimiter=',')
-			next(csv_read)
-			for line in csv_read:
-				if str(elsymb) == str(line[2]):
-					return float(line[3])
+		return self.elements
+	def Balance(self, react1,react2,prod1,prod2):
+		# d PeriodicTable()
+		# reactants = [[]]
+		pass
 
 d = PeriodicTable()
 d.main()
