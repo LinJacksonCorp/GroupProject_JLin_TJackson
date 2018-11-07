@@ -2,9 +2,7 @@
 # Date: 11/2/2018
 # Description: Final Project ----> Periodic Table Element Table
 # Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA)
-
-
-import csv #
+import csv
 
 class PeriodicTable:
 	def __init__(self):
@@ -12,7 +10,7 @@ class PeriodicTable:
 	def main(self):
 		d = PeriodicTable()
 		print("Hello, I am Chem Bot. If you would like, you can either find the information for a single element or the mass of a compound")
-		command = str(input('To find the information for a single element, enter: I,"ElementName"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
+		command = str(input('To find the information for a single element, enter: I,"ElementSymbol"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
 		if command[:1].upper() == 'I':
 			print(d.Info(str(command[2:])))
 		elif command[:1].upper() == 'M':
@@ -30,6 +28,21 @@ class PeriodicTable:
 				if str(Element) == str(line[2]):
 					return "\n\n"+str(line[0])+":\n"+"Atomic Number: "+str(line[1])+"\nSymbol: "+str(line[2])+"\nAtomic Mass: "+str(line[3])
 	def Mass(self, str_compound):
+		d = PeriodicTable()
+		mass = 0
+		for a in d.SeperateCompound(str_compound):
+			mass+=d.MolarMass(str(a))
+		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
+	def MolarMass(self, elsymb):
+		import os, csv
+		os.chdir(r'C:\Users\tilde\Desktop')
+		with open('elements.csv') as csv_file:
+			csv_read = csv.reader(csv_file, delimiter=',')
+			next(csv_read)
+			for line in csv_read:
+				if str(elsymb) == str(line[2]):
+					return float(line[3])
+	def SeperateCompound(self, str_compound):
 		compound = [] 
 		for a in str_compound:
 			compound += [a] # this will store all the characters & digits mentioned in the d.Mass(___) below
@@ -64,20 +77,12 @@ class PeriodicTable:
 				if str(compound[i+1]).isdigit() == False:
 					self.elements += [element]
 			i+=1
-		d = PeriodicTable()
-		mass = 0
-		for a in self.elements:
-			mass+=d.MolarMass(str(a))
-		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
-	def MolarMass(self, elsymb):
-		import os, csv
-		os.chdir(r'C:\Users\tilde\Desktop')
-		with open('elements.csv') as csv_file:
-			csv_read = csv.reader(csv_file, delimiter=',')
-			next(csv_read)
-			for line in csv_read:
-				if str(elsymb) == str(line[2]):
-					return float(line[3])
+		return self.elements
+		print(elements)
+	def Balance(self, react1,react2,prod1,prod2):
+		d.SeperateCompound()
+		return
 
 d = PeriodicTable()
-d.Mass('H102O13')
+# d.main()
+d.SeperateCompound("H2O")
