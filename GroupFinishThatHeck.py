@@ -11,8 +11,6 @@ class PeriodicTable:
 			csv_read = csv.reader(csv_file, delimiter=',')
 			next(csv_read)
 			self.Table = [DataType(line[0],line[2],line[1],line[3]) for line in csv_read]
-			print(self.Table)
-
 
 	def main(self):
 		d = PeriodicTable()
@@ -26,29 +24,20 @@ class PeriodicTable:
 			print("You have entered your command incorrectly, please try again!")
 			d.main()
 	def Info(self, Element):
-		import os,csv
-		os.chdir(r'C:\Users\tilde\Desktop')
-		with open('elements.csv') as csv_file:
-			csv_read = csv.reader(csv_file, delimiter=',')
-			next(csv_read)
-			for line in csv_read:
-				if str(Element) == str(line[2]):
-					return "\n\n"+str(line[0])+":\n"+"Atomic Number: "+str(line[1])+"\nSymbol: "+str(line[2])+"\nAtomic Mass: "+str(line[3])
+		a = self.Table
+		for x in range(len(self.Table)):
+			if str(a[x].ElementSymbol) == str(Element):
+				return "\n\n"+str(a[x].ElementName)+":\n"+"Atomic Number: "+str(a[x].AtomicNumber)+"\nSymbol: "+str(a[x].ElementSymbol)+"\nAtomic Mass: "+str(a[x].Weight)
 	def Mass(self, str_compound):
 		d = PeriodicTable()
 		mass = 0
 		for a in d.SeperateCompound(str_compound):
-			mass+=d.MolarMass(str(a))
+			for i in range(len(self.Table)):
+				if str(self.Table[i].ElementSymbol) == str(a):
+					mass_add = float(self.Table[i].Weight)
+					break
+			mass+=mass_add
 		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
-	def MolarMass(self, elsymb):
-		import os, csv
-		os.chdir(r'C:\Users\tilde\Desktop')
-		with open('elements.csv') as csv_file:
-			csv_read = csv.reader(csv_file, delimiter=',')
-			next(csv_read)
-			for line in csv_read:
-				if str(elsymb) == str(line[2]):
-					return float(line[3])
 	def SeperateCompound(self, str_compound):
 		compound = [] 
 		Elements = []
@@ -89,6 +78,7 @@ class PeriodicTable:
 	def Balance(self, react1,react2,prod1,prod2):
 		# d PeriodicTable()
 		# reactants = [[]]
+		#This is all you Justin
 		pass
 
 class DataType():
@@ -97,6 +87,12 @@ class DataType():
 		self.ElementSymbol = elSymb
 		self.AtomicNumber = Num
 		self.Weight = Weight
+
+	def __str__(self):
+		Element = [self.ElementName,self.ElementSymbol,self.AtomicNumber,self.Weight]
+		return Element
+
+
 
 
 
