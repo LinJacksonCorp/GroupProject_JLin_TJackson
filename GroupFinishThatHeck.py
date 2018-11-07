@@ -14,26 +14,33 @@ class PeriodicTable:
 
 	def main(self):
 		d = PeriodicTable()
-		print("Hello, I am Chem Bot. If you would like, you can either find the information for a single element or the mass of a compound")
-		command = str(input('To find the information for a single element, enter: I,"ElementSymbol"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
-		if command[:1].upper() == 'I':
-			print(d.Info(str(command[2:])))
-		elif command[:1].upper() == 'M':
-			print(d.Mass(str(command[2:])))
+		command = input("\nCOMMAND\n")
+		if command.lower() == 'exit' or command.lower() == 'quit':
+			quit()
+		elif len(d.SeperateCompound(str(command))) == 1:
+			print(d.Info(str(command)))
+			d.main()
 		else:
-			print("You have entered your command incorrectly, please try again!")
+			print(d.Mass(str(command)))
 			d.main()
 	def Info(self, Element):
+		d = PeriodicTable()
 		a = self.Table
-		for x in range(len(self.Table)):
-			if str(a[x].ElementSymbol) == str(Element):
+		for x in range(len(self.Table)+1):
+			if x == len(self.Table):
+				print("That is an invalid Element Symbol. If you entered a name please try entering a Symbol. (e.x. Hydrogen is H)")
+				d.main()
+			elif str(a[x].ElementSymbol) == str(Element):
 				return "\n\n"+str(a[x].ElementName)+":\n"+"Atomic Number: "+str(a[x].AtomicNumber)+"\nSymbol: "+str(a[x].ElementSymbol)+"\nAtomic Mass: "+str(a[x].Weight)
 	def Mass(self, str_compound):
 		d = PeriodicTable()
 		mass = 0
 		for a in d.SeperateCompound(str_compound):
-			for i in range(len(self.Table)):
-				if str(self.Table[i].ElementSymbol) == str(a):
+			for i in range(len(self.Table)+1):
+				if i == len(self.Table):
+					print("That is an invalid compound")
+					d.main()
+				elif str(self.Table[i].ElementSymbol) == str(a):
 					mass_add = float(self.Table[i].Weight)
 					break
 			mass+=mass_add
