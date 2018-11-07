@@ -2,15 +2,22 @@
 # Date: 11/2/2018
 # Description: Final Project ----> Periodic Table Element Table
 # Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA)
-import csv
+import csv,os
 
 class PeriodicTable:
 	def __init__(self):
-		self.elements = []
+		os.chdir(r'C:\Users\tilde\Desktop')
+		with open('elements.csv') as csv_file:
+			csv_read = csv.reader(csv_file, delimiter=',')
+			next(csv_read)
+			self.Table = [DataType(line[0],line[2],line[1],line[3]) for line in csv_read]
+			print(self.Table)
+
+
 	def main(self):
 		d = PeriodicTable()
 		print("Hello, I am Chem Bot. If you would like, you can either find the information for a single element or the mass of a compound")
-		command = str(input('To find the information for a single element, enter: I,"ElementName"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
+		command = str(input('To find the information for a single element, enter: I,"ElementSymbol"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
 		if command[:1].upper() == 'I':
 			print(d.Info(str(command[2:])))
 		elif command[:1].upper() == 'M':
@@ -44,6 +51,7 @@ class PeriodicTable:
 					return float(line[3])
 	def SeperateCompound(self, str_compound):
 		compound = [] 
+		Elements = []
 		for a in str_compound:
 			compound += [a] # this will store all the characters & digits mentioned in the d.Mass(___) below
 		compound+=[0] # this exists to let the code read the end of the string
@@ -65,23 +73,34 @@ class PeriodicTable:
 							break
 					for r in range(e):
 						n += str(compound[i+r])
-				self.elements += [element]*int(n)
+				Elements += [element]*int(n)
 				i+=(e-1)
 			elif compound[i] == compound[i].upper(): # this will run through when it sees a capilized 
 				element = str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
 					if compound[i+1] == compound[i+1].upper():
-						self.elements += [element]
+						Elements += [element]
 			elif compound[i] == compound[i].lower():
 				element += str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
-					self.elements += [element]
+					Elements += [element]
 			i+=1
-		return self.elements
+		return Elements
 	def Balance(self, react1,react2,prod1,prod2):
 		# d PeriodicTable()
 		# reactants = [[]]
 		pass
+
+class DataType():
+	def __init__(self,elName,elSymb,Num,Weight):
+		self.ElementName = elName
+		self.ElementSymbol = elSymb
+		self.AtomicNumber = Num
+		self.Weight = Weight
+
+
+
+
 
 d = PeriodicTable()
 d.main()
