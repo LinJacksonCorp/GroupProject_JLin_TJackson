@@ -101,9 +101,5 @@ class DataType():
 
 
 
-
-
-
-
 d = PeriodicTable()
 d.main()
