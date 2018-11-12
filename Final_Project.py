@@ -55,6 +55,7 @@ class PeriodicTable:
 			compound += [a] # this will store all the characters & digits mentioned in the d.Mass(___) below
 		compound+=[0] # this exists to let the code read the end of the string
 		i = 0 # The limiter of the while loop below
+		element = '' # empty string
 		while i<len(str_compound)+1: # This will loop through the enitrety of the compound string
 			if str(compound[i]).isdigit() == True: # This checks to see if the compound is a digit. 
 				e = 1 # This variable will move the checking mechanism for the integers inside 
