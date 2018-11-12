@@ -44,7 +44,7 @@ class PeriodicTable:
 					d.main() # sends you back to the start.
 				elif str(self.Table[i].ElementSymbol) == str(a):
 					mass_add = float(self.Table[i].Weight) # a variable that stores the information of the compound’s weight
-					Break # breaks the for loop when mass_add has the information.
+					break # breaks the for loop when mass_add has the information.
 			mass+=mass_add
 		mass = int((mass*100))/100
 		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)+" g/mol" # returns the mass of the compound.
