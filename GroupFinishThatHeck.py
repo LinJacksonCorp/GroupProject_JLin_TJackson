@@ -1,7 +1,7 @@
 # Name: Justin Lin & Tilden Jackson
 # Date: 11/2/2018
 # Description: Final Project ----> Periodic Table Element Table
-# Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA)
+# Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA), (https://stackoverflow.com/questions/1155617/count-the-number-occurrences-of-a-character-in-a-string)
 import csv,os
 
 class PeriodicTable:
@@ -71,7 +71,7 @@ class PeriodicTable:
 						n += str(compound[i+r])
 				Elements += [element]*int(n)
 				i+=(e-1)
-			elif compound[i] == compound[i].upper(): # this will run through when it sees a capilized 
+			elif compound[i] == compound[i].upper(): # this will run through when it sees a capitilized 
 				element = str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
 					if compound[i+1] == compound[i+1].upper():
@@ -82,11 +82,25 @@ class PeriodicTable:
 					Elements += [element]
 			i+=1
 		return Elements
-	def Balance(self, react1,react2,prod1,prod2):
-		# d PeriodicTable()
-		# reactants = [[]]
-		#This is all you Justin
-		pass
+	def Balance(self):#, react1,react2,prod1,prod2):
+		react1 = "Li"
+		react2 = "H3PO4"
+		prod1 = "H2"
+		prod2 = "Li3PO4"
+		d = PeriodicTable()
+		print(d.Bal2(react1),d.Bal2(react2),d.Bal2(prod1),d.Bal2(prod2))
+	def Bal2(self, react2):
+		d = PeriodicTable()
+		name = d.SeperateCompound(react2)
+		difchars = []
+		for x in range(len(name)):
+			for a in range(len(difchars)+1):
+				if a == len(difchars):
+					difchars += [str(name[x])]
+				elif name[x] == difchars[a]:
+					break
+		returned = [[difchars[x],str(name).count(str(difchars[x]))] for x in range(len(difchars))]
+		return returned
 
 class DataType():
 	def __init__(self,elName,elSymb,Num,Weight):
@@ -102,4 +116,5 @@ class DataType():
 
 
 d = PeriodicTable()
-d.main()
+#d.main()
+#print(d.Bal2('Li12H3N6'))
