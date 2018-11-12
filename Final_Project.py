@@ -1,47 +1,52 @@
 # Name: Justin Lin & Tilden Jackson
 # Date: 11/2/2018
 # Description: Final Project ----> Periodic Table Element Table
-# Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA)
+# Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA), (https://stackoverflow.com/questions/1155617/count-the-number-occurrences-of-a-character-in-a-string)
 import csv
 
 class PeriodicTable:
 	def __init__(self):
-		pass
-	def main(self):
-		d = PeriodicTable()
-		print("Hello, I am Chem Bot. If you would like, you can either find the information for a single element or the mass of a compound")
-		command = str(input('To find the information for a single element, enter: I,"ElementSymbol"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
-		if command[:1].upper() == 'I':
-			print(d.Info(str(command[2:])))
-		elif command[:1].upper() == 'M':
-			print(d.Mass(str(command[2:])))
-		else:
-			print("You have entered your command incorrectly, please try again!")
-			d.main()
-	def Info(self, Element):
-		import os,csv
-		os.chdir(r'C:\Users\tilde\Desktop')
 		with open('elements.csv') as csv_file:
 			csv_read = csv.reader(csv_file, delimiter=',')
 			next(csv_read)
-			for line in csv_read:
-				if str(Element) == str(line[2]):
-					return "\n\n"+str(line[0])+":\n"+"Atomic Number: "+str(line[1])+"\nSymbol: "+str(line[2])+"\nAtomic Mass: "+str(line[3])
+			self.Table = [DataType(line[0],line[2],line[1],line[3]) for line in csv_read]
+
+	def main(self):
+		d = PeriodicTable()
+		command = input("\nHello this is ChemBot. \nIn order to proceed, enter a compound for the molar mass or an element symbol for the element's information. \nIn order to quit at any time, enter 'quit' or 'exit'\n\n") #this is an input for the user to use
+		if command.lower() == 'exit' or command.lower() == 'quit': #this is the quiting part of the code.
+			print('\n\nThank you for using ChemBot!')
+			quit()
+		elif len(d.SeperateCompound(str(command))) == 1:
+			print(d.Info(str(command)))
+			d.main()
+		else:
+			print(d.Mass(str(command)))
+			d.main()
+
+	def Info(self, Element):
+		d = PeriodicTable()
+		a = self.Table
+		for x in range(len(self.Table)+1):
+			if x == len(self.Table):
+				print("That is an invalid Element Symbol. If you entered a name please try entering a Symbol. (e.x. Hydrogen is H)")
+				d.main()
+			elif str(a[x].ElementSymbol) == str(Element):
+				return "\n\n"+str(a[x].ElementName)+":\n"+"Atomic Number: "+str(a[x].AtomicNumber)+"\nSymbol: "+str(a[x].ElementSymbol)+"\nAtomic Mass: "+str(a[x].Weight)
 	def Mass(self, str_compound):
 		d = PeriodicTable()
 		mass = 0
 		for a in d.SeperateCompound(str_compound):
-			mass+=d.MolarMass(str(a))
-		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
-	def MolarMass(self, elsymb):
-		import os, csv
-		os.chdir(r'C:\Users\tilde\Desktop')
-		with open('elements.csv') as csv_file:
-			csv_read = csv.reader(csv_file, delimiter=',')
-			next(csv_read)
-			for line in csv_read:
-				if str(elsymb) == str(line[2]):
-					return float(line[3])
+			for i in range(len(self.Table)+1):
+				if i == len(self.Table):
+					print("That is an invalid compound")
+					d.main()
+				elif str(self.Table[i].ElementSymbol) == str(a):
+					mass_add = float(self.Table[i].Weight)
+					break
+			mass+=mass_add
+		mass = int((mass*100))/100
+		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)+" g/mol"
 	def SeperateCompound(self, str_compound):
 		compound = [] 
 		Elements = []
@@ -68,7 +73,7 @@ class PeriodicTable:
 						n += str(compound[i+r])
 				Elements += [element]*int(n)
 				i+=(e-1)
-			elif compound[i] == compound[i].upper(): # this will run through when it sees a capilized 
+			elif compound[i] == compound[i].upper(): # this will run through when it sees a capitilized 
 				element = str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
 					if compound[i+1] == compound[i+1].upper():
@@ -80,17 +85,60 @@ class PeriodicTable:
 			i+=1
 		return Elements
 	def Balance(self):#, react1,react2,prod1,prod2):
-		react1 = "K"
+		d = PeriodicTable()
+		react1 = "Li"
 		react2 = "H3PO4"
 		prod1 = "H2"
 		prod2 = "Li3PO4"
-		d = PeriodicTable()
-		# print(d.Bal2(react1),d.Bal2(react2),d.Bal2(prod1),d.Bal2(prod2))
-		print(d.Bal2(react1))
-		# print(d.Bal2(react2))
-		# print(d.Bal2(prod1))
-		# print(d.Bal2(prod2))
-def Bal2(self, react2):
+		print(d.Bal2(react1),d.Bal2(react2),d.Bal2(prod1),d.Bal2(prod2))
+		# the answer: 6Li + 2H3PO4 ---> 3H2 + 2Li3PO4
+
+		# while True:
+		# 	c = 0
+		# 	for a in range(len(d.Bal2(prod1)))
+		# 		for b in range(len(d.Bal2(prod2)))
+		# 			if d.Bal2(react1) != d.Bal2(prod1):
+		# 				c+=1
+
+
+		# 			elif d.Bal2(react1) != d.Bal2(prod1):
+		# 				pass
+
+
+
+		# d.Bal2(react1) + d.Bal2(react2) == d.Bal2(prod1) + d.Bal2(prod2)
+	
+	# def Bal2(self, react2):
+	# 	lst = []
+	# 	lt = []
+	# 	if len(react2) == 1:
+	# 		return [len(react2)], [react2]
+	# 	elif len(react2) == 2:
+	# 		if react2[0] == react2[0].upper() and react2[1] == react2[1].lower() and react2[1].isdigit() == False:
+	# 			return react2[1], react2[0] * int(react2[1])
+
+	# 	for c in range(1, len(react2)):
+	# 		if react2[c-1].isdigit() == False and react2[c-1] == react2[c-1].upper() and react2[c].isdigit() == True:
+	# 			z = react2[c-1] * int(react2[c])
+	# 			# print(z, "0")
+	# 			lst.append(z)
+	# 		elif react2[c-1].isdigit() == False and react2[c-1] == react2[c-1].lower() and react2[c].isdigit() == True:
+	# 			z = (react2[c-2]+react2[c-1]) * int(react2[c])
+	# 			# print(z,"1")
+	# 			lst.append(z)
+	# 		elif react2[c-1] == react2[c-1].upper() and react2[c-1].isdigit() == False and react2[c] == react2[c].upper() and react2[c].isdigit() == False:
+	# 			z = react2[c-1]
+	# 			# print(z,"2")
+	# 			lst.append(z)
+	# 	for i in range(len(lst)):
+	# 		if i == 0:
+	# 			a = len(lst[0])
+	# 			lt += [int(a/2)]
+	# 		else:
+	# 			lt += [len(lst[i])]
+	# 	return lt, lst
+	
+	def Bal2(self, react2):
 		d = PeriodicTable()
 		name = d.SeperateCompound(react2)
 		difchars = []
@@ -103,36 +151,18 @@ def Bal2(self, react2):
 		returned = [[difchars[x],str(name).count(str(difchars[x]))] for x in range(len(difchars))]
 		return returned
 
-	# def Bal2(self, react2):
-	# 	lst = []
-	# 	lt = []
-	# 	if len(react2) == 1:
-	# 		react2 = '.' + react2
-	# 	for c in range(1, len(react2)):
-	# 		if react2[c-1] == '.':
-	# 			pass
-	# 		elif react2[c-1].isdigit() == False and react2[c-1] == react2[c-1].upper() and react2[c].isdigit() == True:
-	# 			z = react2[c-1] * int(react2[c])
-	# 			# print(z, "0")
-	# 			lst.append(z)
-	# 		elif react2[c-1].isdigit() == False and react2[c-1] == react2[c-1].lower() and react2[c].isdigit() == True:
-	# 			z = (react2[c-2]+react2[c-1]) * int(react2[c])
-	# 			# print(z,"1")
-	# 			lst.append(z)
-	# 		elif react2[c-1] == react2[c-1].upper() and react2[c-1].isdigit() == False and react2[c] == react2[c].upper():
-	# 			z = react2[c-1]
-	# 			# print(z,"2")
-	# 			lst.append(z)
-	# 	for i in range(len(lst)):
-	# 		if i == 0:
-	# 			a = len(lst[0])
-	# 			lt += [int(a/2)]
-	# 		else:
-	# 			lt += [len(lst[i])]
-	# 	return lt, lst
+class DataType():
+	def __init__(self,elName,elSymb,Num,Weight):
+		self.ElementName = elName
+		self.ElementSymbol = elSymb
+		self.AtomicNumber = Num
+		self.Weight = Weight
+
+	def __str__(self):
+		Element = [self.ElementName,self.ElementSymbol,self.AtomicNumber,self.Weight]
+		return Element
 
 
 
 d = PeriodicTable()
-# d.main()
 d.Balance()
