@@ -6,7 +6,7 @@ import csv
 
 class PeriodicTable:
 	def __init__(self):
-		self.elements = []
+		pass
 	def main(self):
 		d = PeriodicTable()
 		print("Hello, I am Chem Bot. If you would like, you can either find the information for a single element or the mass of a compound")
@@ -44,6 +44,7 @@ class PeriodicTable:
 					return float(line[3])
 	def SeperateCompound(self, str_compound):
 		compound = [] 
+		Elements = []
 		for a in str_compound:
 			compound += [a] # this will store all the characters & digits mentioned in the d.Mass(___) below
 		compound+=[0] # this exists to let the code read the end of the string
@@ -65,24 +66,73 @@ class PeriodicTable:
 							break
 					for r in range(e):
 						n += str(compound[i+r])
-				self.elements += [element]*int(n)
+				Elements += [element]*int(n)
 				i+=(e-1)
 			elif compound[i] == compound[i].upper(): # this will run through when it sees a capilized 
 				element = str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
 					if compound[i+1] == compound[i+1].upper():
-						self.elements += [element]
+						Elements += [element]
 			elif compound[i] == compound[i].lower():
 				element += str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
-					self.elements += [element]
+					Elements += [element]
 			i+=1
-		return self.elements
-		print(elements)
-	def Balance(self, react1,react2,prod1,prod2):
-		d.SeperateCompound()
-		return
+		return Elements
+	def Balance(self):#, react1,react2,prod1,prod2):
+		react1 = "K"
+		react2 = "H3PO4"
+		prod1 = "H2"
+		prod2 = "Li3PO4"
+		d = PeriodicTable()
+		# print(d.Bal2(react1),d.Bal2(react2),d.Bal2(prod1),d.Bal2(prod2))
+		print(d.Bal2(react1))
+		# print(d.Bal2(react2))
+		# print(d.Bal2(prod1))
+		# print(d.Bal2(prod2))
+def Bal2(self, react2):
+		d = PeriodicTable()
+		name = d.SeperateCompound(react2)
+		difchars = []
+		for x in range(len(name)):
+			for a in range(len(difchars)+1):
+				if a == len(difchars):
+					difchars += [str(name[x])]
+				elif name[x] == difchars[a]:
+					break
+		returned = [[difchars[x],str(name).count(str(difchars[x]))] for x in range(len(difchars))]
+		return returned
+
+	# def Bal2(self, react2):
+	# 	lst = []
+	# 	lt = []
+	# 	if len(react2) == 1:
+	# 		react2 = '.' + react2
+	# 	for c in range(1, len(react2)):
+	# 		if react2[c-1] == '.':
+	# 			pass
+	# 		elif react2[c-1].isdigit() == False and react2[c-1] == react2[c-1].upper() and react2[c].isdigit() == True:
+	# 			z = react2[c-1] * int(react2[c])
+	# 			# print(z, "0")
+	# 			lst.append(z)
+	# 		elif react2[c-1].isdigit() == False and react2[c-1] == react2[c-1].lower() and react2[c].isdigit() == True:
+	# 			z = (react2[c-2]+react2[c-1]) * int(react2[c])
+	# 			# print(z,"1")
+	# 			lst.append(z)
+	# 		elif react2[c-1] == react2[c-1].upper() and react2[c-1].isdigit() == False and react2[c] == react2[c].upper():
+	# 			z = react2[c-1]
+	# 			# print(z,"2")
+	# 			lst.append(z)
+	# 	for i in range(len(lst)):
+	# 		if i == 0:
+	# 			a = len(lst[0])
+	# 			lt += [int(a/2)]
+	# 		else:
+	# 			lt += [len(lst[i])]
+	# 	return lt, lst
+
+
 
 d = PeriodicTable()
 # d.main()
-d.SeperateCompound("H2O")
+d.Balance()
