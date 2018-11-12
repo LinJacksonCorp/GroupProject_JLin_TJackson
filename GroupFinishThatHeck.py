@@ -2,48 +2,52 @@
 # Date: 11/2/2018
 # Description: Final Project ----> Periodic Table Element Table
 # Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA)
-import csv
+import csv,os
 
 class PeriodicTable:
 	def __init__(self):
-		self.elements = []
-	def main(self):
-		d = PeriodicTable()
-		print("Hello, I am Chem Bot. If you would like, you can either find the information for a single element or the mass of a compound")
-		command = str(input('To find the information for a single element, enter: I,"ElementName"\nTo find the Molar Mass of a compound, enter: M,"Compound"\n'))
-		if command[:1].upper() == 'I':
-			print(d.Info(str(command[2:])))
-		elif command[:1].upper() == 'M':
-			print(d.Mass(str(command[2:])))
-		else:
-			print("You have entered your command incorrectly, please try again!")
-			d.main()
-	def Info(self, Element):
-		import os,csv
 		os.chdir(r'C:\Users\tilde\Desktop')
 		with open('elements.csv') as csv_file:
 			csv_read = csv.reader(csv_file, delimiter=',')
 			next(csv_read)
-			for line in csv_read:
-				if str(Element) == str(line[2]):
-					return "\n\n"+str(line[0])+":\n"+"Atomic Number: "+str(line[1])+"\nSymbol: "+str(line[2])+"\nAtomic Mass: "+str(line[3])
+			self.Table = [DataType(line[0],line[2],line[1],line[3]) for line in csv_read]
+
+	def main(self):
+		d = PeriodicTable()
+		command = input("\nCOMMAND\n")
+		if command.lower() == 'exit' or command.lower() == 'quit':
+			quit()
+		elif len(d.SeperateCompound(str(command))) == 1:
+			print(d.Info(str(command)))
+			d.main()
+		else:
+			print(d.Mass(str(command)))
+			d.main()
+	def Info(self, Element):
+		d = PeriodicTable()
+		a = self.Table
+		for x in range(len(self.Table)+1):
+			if x == len(self.Table):
+				print("That is an invalid Element Symbol. If you entered a name please try entering a Symbol. (e.x. Hydrogen is H)")
+				d.main()
+			elif str(a[x].ElementSymbol) == str(Element):
+				return "\n\n"+str(a[x].ElementName)+":\n"+"Atomic Number: "+str(a[x].AtomicNumber)+"\nSymbol: "+str(a[x].ElementSymbol)+"\nAtomic Mass: "+str(a[x].Weight)
 	def Mass(self, str_compound):
 		d = PeriodicTable()
 		mass = 0
 		for a in d.SeperateCompound(str_compound):
-			mass+=d.MolarMass(str(a))
+			for i in range(len(self.Table)+1):
+				if i == len(self.Table):
+					print("That is an invalid compound")
+					d.main()
+				elif str(self.Table[i].ElementSymbol) == str(a):
+					mass_add = float(self.Table[i].Weight)
+					break
+			mass+=mass_add
 		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
-	def MolarMass(self, elsymb):
-		import os, csv
-		os.chdir(r'C:\Users\tilde\Desktop')
-		with open('elements.csv') as csv_file:
-			csv_read = csv.reader(csv_file, delimiter=',')
-			next(csv_read)
-			for line in csv_read:
-				if str(elsymb) == str(line[2]):
-					return float(line[3])
 	def SeperateCompound(self, str_compound):
 		compound = [] 
+		Elements = []
 		for a in str_compound:
 			compound += [a] # this will store all the characters & digits mentioned in the d.Mass(___) below
 		compound+=[0] # this exists to let the code read the end of the string
@@ -65,23 +69,37 @@ class PeriodicTable:
 							break
 					for r in range(e):
 						n += str(compound[i+r])
-				self.elements += [element]*int(n)
+				Elements += [element]*int(n)
 				i+=(e-1)
 			elif compound[i] == compound[i].upper(): # this will run through when it sees a capilized 
 				element = str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
 					if compound[i+1] == compound[i+1].upper():
-						self.elements += [element]
+						Elements += [element]
 			elif compound[i] == compound[i].lower():
 				element += str(compound[i])
 				if str(compound[i+1]).isdigit() == False:
-					self.elements += [element]
+					Elements += [element]
 			i+=1
-		return self.elements
+		return Elements
 	def Balance(self, react1,react2,prod1,prod2):
 		# d PeriodicTable()
 		# reactants = [[]]
+		#This is all you Justin
 		pass
+
+class DataType():
+	def __init__(self,elName,elSymb,Num,Weight):
+		self.ElementName = elName
+		self.ElementSymbol = elSymb
+		self.AtomicNumber = Num
+		self.Weight = Weight
+
+	def __str__(self):
+		Element = [self.ElementName,self.ElementSymbol,self.AtomicNumber,self.Weight]
+		return Element
+
+
 
 d = PeriodicTable()
 d.main()
