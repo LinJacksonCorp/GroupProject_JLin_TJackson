@@ -14,8 +14,9 @@ class PeriodicTable:
 
 	def main(self):
 		d = PeriodicTable()
-		command = input("\nCOMMAND\n")
+		command = input("\nHello this is ChemBot. \nIn order to proceed, enter a compound for the molar mass or an element symbol for the element's information. \nIn order to quit at any time, enter 'quit' or 'exit'\n\n")
 		if command.lower() == 'exit' or command.lower() == 'quit':
+			print('\n\nThank you for using ChemBot!')
 			quit()
 		elif len(d.SeperateCompound(str(command))) == 1:
 			print(d.Info(str(command)))
@@ -23,6 +24,7 @@ class PeriodicTable:
 		else:
 			print(d.Mass(str(command)))
 			d.main()
+
 	def Info(self, Element):
 		d = PeriodicTable()
 		a = self.Table
@@ -44,7 +46,8 @@ class PeriodicTable:
 					mass_add = float(self.Table[i].Weight)
 					break
 			mass+=mass_add
-		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)
+		mass = int((mass*100))/100
+		return "\nThe Molar Mass of "+str(str_compound)+" is: "+str(mass)+" g/mol"
 	def SeperateCompound(self, str_compound):
 		compound = [] 
 		Elements = []
@@ -83,11 +86,11 @@ class PeriodicTable:
 			i+=1
 		return Elements
 	def Balance(self):#, react1,react2,prod1,prod2):
+		d = PeriodicTable()
 		react1 = "Li"
 		react2 = "H3PO4"
 		prod1 = "H2"
 		prod2 = "Li3PO4"
-		d = PeriodicTable()
 		print(d.Bal2(react1),d.Bal2(react2),d.Bal2(prod1),d.Bal2(prod2))
 	def Bal2(self, react2):
 		d = PeriodicTable()
@@ -116,5 +119,5 @@ class DataType():
 
 
 d = PeriodicTable()
-#d.main()
-#print(d.Bal2('Li12H3N6'))
+d.main()
+# print(d.Balance())
