@@ -2,6 +2,7 @@
 # Date: 11/2/2018
 # Description: Final Project ----> Periodic Table Element Table
 # Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA), (https://stackoverflow.com/questions/1155617/count-the-number-occurrences-of-a-character-in-a-string)
+# On my honor, I have niether given nor received unauthorized aid.
 import csv
 
 class PeriodicTable:
@@ -100,4 +101,3 @@ class DataType():
 
 d = PeriodicTable()
 d.main()
-# print(d.Balance())
