@@ -1,7 +1,8 @@
 # Name: Justin Lin & Tilden Jackson
 # Date: 11/2/2018
-# Description: Final Project ----> Periodic Table Element Table
+# Description: This is the final project of the Fall term. It is a chem assistant that gives you the molar mass of a compound or tells you information about an element
 # Source(s): (https://realpython.com/python-csv/), (https://www.youtube.com/watch?v=q5uM4VKywbA), (https://stackoverflow.com/questions/1155617/count-the-number-occurrences-of-a-character-in-a-string)
+#On my honor, I have niether given nor recieved unotherized aid
 import csv
 
 class PeriodicTable:
